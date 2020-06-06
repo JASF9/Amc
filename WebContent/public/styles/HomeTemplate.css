@@ -1,0 +1,96 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the top navigation bar */
+.topnav {
+  overflow: hidden;
+  background-color: #151;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: right;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+
+
+.topnav input[type=text] {
+  float: left;
+  width: 40%;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 10px 30px 10px 10px;
+  margin: 0 0 0 15px
+}
+
+.topnav input[type=submit]{
+  float: left;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: lightgray;
+  padding: 10px 10px 10px 10px;
+}
+
+.topnav li, a {
+  height: 44px;
+  display: block;
+}
+
+#home {
+  float: left;
+  width: 46px;
+  background: url('img_navsprites.gif') 0 0;
+}
+
+.toptwo {
+overflow:hidden;
+background-color: #199;
+}
+.toptwo a {
+float:left;
+display:block;
+color:#f2f2f2;
+text-align: center;
+padding: 10px 30px;
+text-decoration: none;
+}
+
+
+
+/* Style the content */
+.content {
+  background-color: #eff;
+  padding: 10px;
+   /* Should be removed. Only for demonstration */
+}
+
+.content h2 {
+	padding: 0px 0 0 35%;
+}
+
+/* Style the footer */
+.footer {
+  background-color: #e2f2e2;
+  padding: 10px;
+}
+
+.footer p {
+  padding: 0px 45% 0 45%;
+}
