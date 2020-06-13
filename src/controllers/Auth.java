@@ -6,7 +6,8 @@ import javax.servlet.http.HttpSession;
 import helpers.Hash;
 
 public class Auth {
-public HttpSession authenticate(String username, String password, HttpServletRequest request) {
+
+	public HttpSession authenticate(String username, String password, HttpServletRequest request) {
 		
 		if(isSessionActive(request)) {
 			System.out.println("There's already an active session.");

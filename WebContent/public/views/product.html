@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+<div id="data"></div>
+<div id="comm"></div>
+<script>
+window.onload = function(){
+	var request = XMLHttpRequest();
+	var fd = FormData();
+	fd.set("rm","GET");
+	fd.set("ind","yes");
+	request.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      document.getElementById("data").innerHTML =
+	      this.responseText;
+	    }
+	  };
+	request.open("GET","http://localhost:8080/Amachon2/Inventory");
+	request.send(fd);
+	
+	var req = XMLHttpRequest();
+	var form = FormData();
+	form.set("rm","GET");
+	req.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      document.getElementById("comm").innerHTML =
+	      this.responseText;
+	    }
+	  };
+	req.open("GET","http://localhost:8080/Amachon2/Comentary");
+	req.send(form);
+	
+}
+</script>
+</body>
+</html>

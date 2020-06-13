@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<link rel="stylesheet" href="../styles/HomeTemplate.css">
+<title>My Products</title>
+</head>
+<body>
+<div id="data"></div>
+<script>
+window.onload = function(){
+	var request = XMLHttpRequest();
+	var fd = FormData();
+	fd.set("rm","GET");
+	fd.set("ind","no");
+	request.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	      document.getElementById("data").innerHTML =
+	      this.responseText;
+	    }
+	  };
+	request.open("GET","http://localhost:8080/Amachon2/Inventory");
+	request.send(fd);
+	
+}
+</script>
+</body>
+</html>

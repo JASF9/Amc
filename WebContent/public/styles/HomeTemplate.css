@@ -85,6 +85,46 @@ text-decoration: none;
 	padding: 0px 0 0 35%;
 }
 
+.product {
+  background-color: #fef;
+  padding: 10px;
+}
+/* Create three unequal columns that floats next to each other */
+.product.column {
+  float: left;
+  padding: 10px;
+}
+
+/* Left and right column */
+.product.column.side {
+  width: 25%;
+}
+
+.product.column.side img{
+	width:100%;
+	min-height:150px;
+}
+
+/* Middle column */
+.product.column.middle {
+  width: 50%;
+}
+
+
+/* Clear floats after the columns */
+.product.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .product.column.side, .product.column.middle {
+    width: 100%;
+  }
+}
+
 /* Style the footer */
 .footer {
   background-color: #e2f2e2;

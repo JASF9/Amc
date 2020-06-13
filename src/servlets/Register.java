@@ -60,9 +60,13 @@ public class Register extends HttpServlet {
 		HttpSession session = a.authenticate(username, password, request);
 		if(session!=null) {
 			session.setAttribute("username", username);
+			session.setAttribute("password", password);
 			session.setAttribute("admin", a.getAdminStatus(username));
 			session.setMaxInactiveInterval(120);
-			response.sendRedirect("public/views/loggedHome.html");
+			if((boolean) session.getAttribute("admin"))
+				response.sendRedirect("public/views/loggedSHome.html");
+			else
+				response.sendRedirect("public/views/loggedHome.html");
 			
 		}
 		else {
@@ -100,7 +104,10 @@ public class Register extends HttpServlet {
 				session.setAttribute("username", username);
 				session.setAttribute("admin", a.getAdminStatus(username));
 				session.setMaxInactiveInterval(120);
-				response.sendRedirect("public/views/loggedHome.html");
+				if((boolean) session.getAttribute("admin"))
+					response.sendRedirect("public/views/loggedSHome.html");
+				else
+					response.sendRedirect("public/views/loggedHome.html");
 				
 			}
 			else {
@@ -128,7 +135,11 @@ public class Register extends HttpServlet {
 		User u = new User();
 		int result = u.updateUser(id, name, epass, telf, email, direction, request);
 		if(result==1) {
-			response.sendRedirect("public/views/loggedHome.html");
+			HttpSession session = request.getSession(false);
+			if((boolean) session.getAttribute("admin"))
+				response.sendRedirect("public/views/loggedSHome.html");
+			else
+				response.sendRedirect("public/views/loggedHome.html");
 		}
 		else {
 			if(result==2) {
