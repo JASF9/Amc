@@ -4,6 +4,30 @@
   <artifactId>Amachon2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+  <properties>
+  <maven.compiler.source>1.8</maven.compiler.source>
+  <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+  
+  <dependencies>
+ <dependency>
+ <groupId>javax.servlet</groupId>
+ <artifactId>javax.servlet-api</artifactId>
+ <version>3.0.1</version>
+ <scope>provided</scope>
+ </dependency>
+ <dependency>
+<groupId>org.apache.commons</groupId>
+<artifactId>commons-dbcp2</artifactId>
+<version>2.6.0</version>
+ </dependency>
+ <dependency>
+ <groupId>org.postgresql</groupId>
+<artifactId>postgresql</artifactId>
+<version>42.2.12</version>
+ </dependency>
+ </dependencies> 
+  
   
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -16,6 +40,29 @@
       </resource>
     </resources>
     <plugins>
+    <plugin>
+ <groupId>org.apache.maven.plugins</groupId>
+ <artifactId>maven-dependency-plugin</artifactId>
+ <executions>
+ <execution>
+ <phase>package</phase>
+ <goals>
+ <goal>copy</goal>
+ </goals>
+ <configuration>
+ <artifactItems>
+ <artifactItem>
+ <groupId>com.heroku</groupId>
+ <artifactId>webapp-runner</artifactId>
+ <version>9.0.30.0</version>
+ <destFileName>webapp-runner.jar</destFileName>
+ </artifactItem>
+ </artifactItems>
+ </configuration>
+ </execution>
+ </executions>
+ </plugin> 
+    
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.0</version>
@@ -40,5 +87,6 @@
         </configuration>
       </plugin>
     </plugins>
+    
   </build>
 </project>

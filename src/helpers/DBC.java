@@ -16,6 +16,7 @@ public class DBC {
 	private String query;
 	private List<String> parameters;
 	private List<String> check;
+	
 	private PreparedStatement psta;
 	
 	public DBC() {
@@ -40,7 +41,7 @@ public class DBC {
 		return this.query;
 	}
 	
-	public void prepare(String sentence) {
+	public void preparet(String sentence) {
 		if(this.parameters.isEmpty()) {
 			this.query=sentence;
 		}
@@ -57,13 +58,14 @@ public class DBC {
 						this.psta.setObject((i+1),parameters.get(i));
 					}
 				}
+				System.out.println("Statement: "+this.psta);
 			}catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	
-	public void preparet(String sentence) {
+	public void prepare(String sentence) {
 		if(this.parameters.isEmpty()) {
 			this.query=sentence;
 		}
@@ -74,14 +76,13 @@ public class DBC {
 					try {
 						if(!check.get(i).isEmpty()) {
 							if(check.get(i).equals("boolean"))
-								this.psta.setObject((i+1),Boolean.getBoolean(this.parameters.get(i)));
+								this.psta.setBoolean((i+1),Boolean.getBoolean(this.parameters.get(i)));
 							if(check.get(i).equals("int"))
-								this.psta.setObject((i+1), Integer.parseInt(this.parameters.get(i)));
+								this.psta.setInt((i+1), Integer.parseInt(this.parameters.get(i)));
 							if(check.get(i).equals("float"))
-								this.psta.setObject((i+1), Float.parseFloat(this.parameters.get(i)));
+								this.psta.setFloat((i+1), Float.parseFloat(this.parameters.get(i)));
 						}
 						else {
-							System.out.println("here to string and check is");
 							this.psta.setObject((i+1),parameters.get(i));
 						}
 					} catch(NullPointerException e) {
@@ -98,14 +99,18 @@ public class DBC {
 	public ResultSet exQuery() throws SQLException {
 		if(this.psta!=null) {
 			try {
+				System.out.println("In execute try");
 				ResultSet rs = this.psta.executeQuery();
 				clear();
 				return rs;
 			}catch(SQLException e) {
+				System.out.println("Error in execute");
+				e.printStackTrace();
 				return null;
 			}
 		}
 		else {
+			System.out.println("in execute else");
 			Statement st = this.conn.createStatement();
 			ResultSet rs = st.executeQuery(this.query);
 			clear();
@@ -116,6 +121,11 @@ public class DBC {
 	private void addCheck(int i, String s) {
 		if(this.check==null) {
 			this.check = new ArrayList<String>();
+		}
+		if(i>=this.check.size()) {
+			for(int c=0; c<=(i+1) ; c++) {
+				this.check.add("");
+			}
 		}
 		this.check.add(i,s);;
 	}
@@ -130,21 +140,24 @@ public class DBC {
 	public void addParameter(int p) {
 		String s = Integer.toString(p);
 		addParameter(s);
-		//addCheck(this.parameters.lastIndexOf(s),"int");
+		System.out.println("new int index:" + this.parameters.lastIndexOf(s));
+		addCheck(this.parameters.lastIndexOf(s),"int");
 		
 	}
 	
 	public void addParameter(float p) {
 		String s = Float.toString(p);
 		addParameter(s);
-		//addCheck(this.parameters.lastIndexOf(s),"float");
+		
+		
+		addCheck(this.parameters.lastIndexOf(s),"float");
 		//System.out.println(this.parameters.lastIndexOf(s));
 	}
 	
 	public void addParameter (Boolean p) {
 		String s = Boolean.toString(p);
 		addParameter(s);
-		//addCheck(this.parameters.lastIndexOf(s),"boolean");
+		addCheck(this.parameters.lastIndexOf(s),"boolean");
 		//System.out.println("Last index" +this.parameters.lastIndexOf(s));
 	}
 

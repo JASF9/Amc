@@ -5,34 +5,41 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import controllers.Auth;
-import controllers.Comment;
+import controllers.Car;
 import helpers.Page;
 
 /**
- * Servlet implementation class Comentary
+ * Servlet implementation class Cart
  */
-@WebServlet("/Comentary")
-public class Comentary extends HttpServlet {
+@WebServlet("/Cart")
+@MultipartConfig(
+        fileSizeThreshold   = 1024 * 1024 * 1,  // 1 MB
+        maxFileSize         = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize      = 1024 * 1024 * 15, // 15 MB
+        location            = "C:/tmp"
+)
+public class Cart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Comentary() {
+    public Cart() {
         super();
         // TODO Auto-generated constructor stub
     }
     
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	System.out.println("Method: "+request.getMethod());
-    	System.out.println("Hidden value: " +request.getParameter("rm"));
+    	
     	if(request.getMethod().equals("POST")) {
     		if(request.getParameter("rm").equals("GET"))
     			doGet(request,response);	
@@ -56,17 +63,20 @@ public class Comentary extends HttpServlet {
 		
 		Auth a = new Auth();
 		if(a.isSessionActive(request)) {
-			String id = request.getParameter("idP");
-			Comment c = new Comment();
-			ResultSet rs = c.searchCommentP(id);
+			HttpSession session = request.getSession(false);
+			String username = (String) session.getAttribute("username");
+			
+			Car c = new Car();
+			ResultSet rs = c.getCart(username);
 			Page page = new Page();
-			String s = page.allCom(rs, request);
+			String s = page.showCart(rs);
 			PrintWriter writer= response.getWriter();
-			writer.println(s);
+			writer.write(s);
 		}
 		else {
 			response.sendRedirect("public/views/userResponses/expired.html");
 		}
+		
 	}
 
 	/**
@@ -76,11 +86,14 @@ public class Comentary extends HttpServlet {
 		
 		Auth a = new Auth();
 		if(a.isSessionActive(request)) {
-			String content = request.getParameter("content");
-			String username = request.getParameter("username");
+			HttpSession session = request.getSession(false);
+			int units = Integer.parseInt(request.getParameter("stock"));
+			float price = Float.parseFloat(request.getParameter("price"));
 			String id = request.getParameter("idP");
-			Comment c = new Comment();
-			if(c.createComment(content, username, id)) {
+			String username = (String) session.getAttribute("username");
+			
+			Car c = new Car();
+			if(c.createCart(units,price, username, id)) {
 				response.sendRedirect(request.getRequestURI());
 			}
 			else {
@@ -97,10 +110,11 @@ public class Comentary extends HttpServlet {
 		
 		Auth a = new Auth();
 		if(a.isSessionActive(request)) {
-			String content = request.getParameter("newcom");
-			String idC = request.getParameter("idC");
-			Comment c = new Comment();
-			if(c.updateComment(content, idC)) {
+			int units = Integer.parseInt(request.getParameter("units"));
+			String idP = request.getParameter("idP");
+			String username = request.getParameter("username");
+			Car c = new Car();
+			if(c.updateCart(units, idP, username)) {
 				response.sendRedirect(request.getRequestURI());
 			}
 			else {
@@ -117,9 +131,10 @@ public class Comentary extends HttpServlet {
 		
 		Auth a = new Auth();
 		if(a.isSessionActive(request)) {
-			String idC = request.getParameter("idC");
-			Comment c = new Comment();
-			if(c.deleteComment(idC)) {
+			String idP = request.getParameter("idP");
+			String username = request.getParameter("username");
+			Car c = new Car();
+			if(c.deleteCart(idP, username)) {
 				response.sendRedirect(request.getRequestURI());
 			}
 			else {

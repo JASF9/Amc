@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Register</h1>
-<p>Please fill all fields. Check Admin only for sellers.</p>
+<p>Please fill all fields.</p>
 <form name="registerForm" method="post" action="http://localhost:8080/Amachon2/Register">
 	Name: <input type="text" name="name"/><br/>
 	Username: <input type="text" name="username"/><br/>
@@ -16,7 +16,10 @@
 	Telf: <input type="text" name="telf"/><br/>
 	Email: <input type="text" name="email"/><br/>
 	Direction: <input type="text" name="direction"/><br/>
-	Admin: <input type="checkbox" name="admin" value="true"/><br/>
+	Status: <select id="admin" name="admin">
+    		<option value="true">Seller</option>
+    		<option value="false">Personal</option><br/>
+    		</select>
 	<input type="submit" value="Register"/>
 </form>
  <a href="http://localhost:8080/Amachon2">Go Back Home</a> 

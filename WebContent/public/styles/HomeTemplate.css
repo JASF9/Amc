@@ -86,33 +86,34 @@ text-decoration: none;
 }
 
 .product {
-  background-color: #fef;
-  padding: 10px;
+  /*background-color: #fef;*/
+  padding: 5px;
 }
 /* Create three unequal columns that floats next to each other */
-.product.column {
+.column {
   float: left;
   padding: 10px;
 }
 
 /* Left and right column */
-.product.column.side {
+.side {
   width: 25%;
 }
 
-.product.column.side img{
+.side img{
 	width:100%;
-	min-height:150px;
+	height:250px;
+	/*min-height:150px;*/
 }
 
 /* Middle column */
-.product.column.middle {
+.middle {
   width: 50%;
 }
 
 
 /* Clear floats after the columns */
-.product.row:after {
+.row:after {
   content: "";
   display: table;
   clear: both;

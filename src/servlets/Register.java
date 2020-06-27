@@ -62,7 +62,7 @@ public class Register extends HttpServlet {
 			session.setAttribute("username", username);
 			session.setAttribute("password", password);
 			session.setAttribute("admin", a.getAdminStatus(username));
-			session.setMaxInactiveInterval(120);
+			session.setMaxInactiveInterval(1200);
 			if((boolean) session.getAttribute("admin"))
 				response.sendRedirect("public/views/loggedSHome.html");
 			else
@@ -83,7 +83,7 @@ public class Register extends HttpServlet {
 		String username = request.getParameter("username");
 		String id = request.getParameter("id");
 		String name = request.getParameter("name");
-		String admin = request.getParameter("admin");	
+		String admint = request.getParameter("admin");	
 		String password = request.getParameter("password");
 		String telf = request.getParameter("telf");
 		String email = request.getParameter("email");
@@ -91,9 +91,9 @@ public class Register extends HttpServlet {
 		
 		Hash hash = new Hash();
 		String epass = hash.encrypt(password);
-		
-		if (admin==null) {
-			admin = "false";
+		String admin = "false";
+		if (!admint.isEmpty()) {
+			admin = "true";
 		}
 		
 		User u = new User();
